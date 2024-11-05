@@ -2,8 +2,7 @@
     import MetaMaskSDK from '@metamask/sdk';
     import { onMount } from 'svelte';
     import { BrowserProvider, Contract } from "ethers";
-    import { effect } from 'vue';
-
+  
     // This is already deployed countract, so count could be 
     // already greater than zero.
     const contAddr = "0xB792F4AE5351917d18639d1E132e7F585e579E07";
@@ -54,7 +53,7 @@
 
     const connect = async () => {
         try {
-            buttonLabel = 'Connecting...'; // Show connecting state
+            buttonLabel = 'Connecting...'; 
             const ethereum = sdk.getProvider();
             await ethereum.request({ method: 'eth_requestAccounts' });
             provider = new BrowserProvider(ethereum);
@@ -77,7 +76,7 @@
             buttonLabel = 'Connect';
         }
     };
-        // Handle account changes
+
     const handleAccountsChanged = async(accounts) => {
         provider = new BrowserProvider(ethereum);
         signer = await provider.getSigner();
@@ -123,7 +122,7 @@
         <button onclick={() => decreasePromise = decrease()}>-</button>
     </div>
 
-    <!-- Await increasePromise -->
+
     {#if increasePromise && contract}
         {#await increasePromise}
             <p>Waiting for signature and transaction hash</p>
@@ -134,7 +133,7 @@
         {/await}
     {/if}
 
-    <!-- Await decreasePromise -->
+ 
     {#if decreasePromise && contract}
         {#await decreasePromise}
             <p>Waiting for signature and transaction hash</p>
@@ -147,7 +146,7 @@
 </div>
 
 <style>
-    /* Ensure everything is centered */
+    
     .center-container {
         display: flex;
         flex-direction: column;
