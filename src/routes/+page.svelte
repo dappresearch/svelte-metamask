@@ -5,6 +5,7 @@
     import spinning from "$lib/assets/spinning.gif";
 
     import Modal from "./Modal.svelte";
+    import { ConsoleLogger } from "@lens-protocol/react-web";
 
     // This is already deployed countract, so count could be
     // already greater than zero.
@@ -115,8 +116,9 @@
             }
         } catch (error) {
             showModal = false;
+            return;
         }
-        
+
         showModal = false;
 
         showLoading = true;
@@ -142,15 +144,15 @@
         <button onclick={() => plusOrMinus("plus")}>+</button>
         <button onclick={() => plusOrMinus("minus")}>-</button>
     </div>
-    
+
     {#if showModal}
         <Modal />
     {/if}
 
     {#if showLoading}
-    <div class="loading-container">
-        <img src={spinning} alt="Loading.." class="spinner" />
-    </div>
+        <div class="loading-container">
+            <img src={spinning} alt="Loading.." class="spinner" />
+        </div>
     {/if}
 </div>
 
@@ -185,9 +187,7 @@
         margin-bottom: 15px;
     }
 
-    .loading-container{
+    .loading-container {
         margin-top: 10px;
     }
-
-
 </style>
