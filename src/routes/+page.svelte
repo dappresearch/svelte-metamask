@@ -2,7 +2,10 @@
     import MetaMaskSDK from '@metamask/sdk';
     import { onMount } from 'svelte';
     import { BrowserProvider, Contract } from "ethers";
-  
+    import spinning from '$lib/assets/spinning.gif';
+
+    import Modal from './Modal.svelte';
+
     // This is already deployed countract, so count could be 
     // already greater than zero.
     const contAddr = "0xB792F4AE5351917d18639d1E132e7F585e579E07";
@@ -89,7 +92,7 @@
         }
 
         await walletSwitch();
-
+        
         tx = await contract.plus();
         await tx.wait();
         count = await contract.count();
@@ -100,9 +103,9 @@
         if (!contract) {
             await connect();
         }
-
+        
         await walletSwitch();
-
+        
         tx = await contract.minus();
         await tx.wait();
         count = await contract.count();
@@ -122,31 +125,30 @@
         <button onclick={() => decreasePromise = decrease()}>-</button>
     </div>
 
-
     {#if increasePromise && contract}
         {#await increasePromise}
-            <p>Waiting for signature and transaction hash</p>
+            <Modal/>
         {:then}
             <p>Transaction Hash: {tx.hash}</p>
         {:catch error}
-            <p style="color: red">Problem connecting</p>
+            {console.log('Error connecting')}
         {/await}
     {/if}
 
- 
     {#if decreasePromise && contract}
         {#await decreasePromise}
-            <p>Waiting for signature and transaction hash</p>
+        <div class="modal">
+            <Modal/>
+        </div>
         {:then}
             <p>Transaction Hash: {tx.hash}</p>
         {:catch error}
-            <p style="color: red">Problem connecting</p>
+            {console.log('Error connecting')}
         {/await}
     {/if}
 </div>
 
 <style>
-    
     .center-container {
         display: flex;
         flex-direction: column;
@@ -170,4 +172,5 @@
     p {
         font-size: 18px;
     }
+
 </style>
